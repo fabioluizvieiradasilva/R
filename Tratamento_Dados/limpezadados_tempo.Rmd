@@ -1,0 +1,44 @@
+
+
+```{r}
+dados = read.csv("tempo.csv", sep=";", na.strings = "", stringsAsFactors = T)
+head(dados)
+summary(dados)
+```
+
+
+```{r}
+#tratando os dados de aparencia
+summary(dados$Aparencia)
+#tratando pela moda = sol
+dados[dados$Aparencia=="menos",]$Aparencia = "sol"
+dados$Aparencia = factor(dados$Aparencia)
+```
+```{r}
+#Tratando a temperatura
+summary(dados$Temperatura)
+#verificando dados menor que -130F ou maior que 130F
+dados[dados$Temperatura < -130 | dados$Temperatura > 130,]$Temperatura
+median(dados$Temperatura)
+#passando os dados menor que -130F ou maior que 130F para a mediana
+dados[dados$Temperatura < -130 | dados$Temperatura > 130,]$Temperatura = median(dados$Temperatura)
+```
+
+```{r}
+#tratando a umidade que deve ser entre 0 a 100
+summary(dados$Umidade)
+#tratando valores NA's
+median(dados$Umidade, na.rm = T)
+dados[is.na(dados$Umidade),]$Umidade = median(dados$Umidade, na.rm = T)
+
+#tratrando valores acima de 100
+dados[dados$Umidade > 100,]$Umidade = median(dados$Umidade, na.rm = T)
+
+summary(dados$Umidade)
+```
+```{r}
+#Tratando a coluna "Vento"
+summary(dados$Vento)
+dados[is.na(dados$Vento),]$Vento = "FALSO"
+```
+
